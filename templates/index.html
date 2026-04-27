@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CipherKit — Professional Security Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,300&family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   CIPHERKIT v3 — PREMIUM CYBER OPERATIONS UI
+   Aesthetic: Obsidian Terminal × Apple Precision
+═══════════════════════════════════════════════ */
+
+:root {
+  /* Core palette */
+  --void:     #03050a;
+  --abyss:    #070c14;
+  --deep:     #0a1120;
+  --surface:  #0d1826;
+  --panel:    #0f1f35;
+  --elevated: #132540;
+  --rim:      rgba(255,255,255,0.055);
+  --rim2:     rgba(255,255,255,0.09);
+  --rim3:     rgba(255,255,255,0.14);
+
+  /* Accent system */
+  --neon:     #00ffaa;
+  --neon2:    #00d4ff;
+  --neon3:    #7b5ea7;
+  --glow:     rgba(0,255,170,0.12);
+  --glow2:    rgba(0,212,255,0.1);
+  --danger:   #ff3e6c;
+  --warn:     #ffb84d;
+  --safe:     #00ffaa;
+
+  /* Typography */
+  --text:     #d4e5f7;
+  --text2:    #8ba8c4;
+  --text3:    #4a6a8a;
+  --white:    #f0f8ff;
+
+  /* Fonts */
+  --display:  'Exo 2', sans-serif;
+  --ui:       'Rajdhani', sans-serif;
+  --code:     'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --radius:   10px;
+  --radius-lg:16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--ui);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ── ATMOSPHERIC BACKGROUND ── */
+.bg-canvas {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  overflow: hidden;
+}
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,170,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,170,0.018) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+.bg-orb-1 {
+  position: absolute; width: 800px; height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,170,0.06) 0%, transparent 70%);
+  top: -300px; left: -200px;
+  animation: orb-drift-1 20s ease-in-out infinite;
+}
+.bg-orb-2 {
+  position: absolute; width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,212,255,0.05) 0%, transparent 70%);
+  bottom: -200px; right: -150px;
+  animation: orb-drift-2 25s ease-in-out infinite;
+}
+.bg-orb-3 {
+  position: absolute; width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123,94,167,0.07) 0%, transparent 70%);
+  top: 40%; left: 60%;
+  animation: orb-drift-3 18s ease-in-out infinite;
+}
+.bg-scanline {
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(0deg,
+    transparent, transparent 3px,
+    rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
+}
+@keyframes orb-drift-1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,40px)} }
+@keyframes orb-drift-2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,-30px)} }
+@keyframes orb-drift-3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-50px)} }
+
+/* Top accent line */
+.top-line {
+  position: fixed; top: 0; left: 0; right: 0; height: 1px; z-index: 200;
+  background: linear-gradient(90deg, transparent 0%, var(--neon) 30%, var(--neon2) 70%, transparent 100%);
+  opacity: 0.7;
+}
+.top-line::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: inherit;
+  filter: blur(4px);
+  opacity: 0.5;
+}
+
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  padding: 0 36px;
+  display: flex; align-items: center; gap: 0;
+  height: 64px;
+  background: rgba(7,12,20,0.92);
+  backdrop-filter: blur(24px) saturate(1.5);
+  border-bottom: 1px solid var(--rim);
+}
+
+.logo-area {
+  display: flex; align-items: center; gap: 14px;
+  margin-right: auto;
+}
+.logo-mark {
+  width: 38px; height: 38px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--neon), var(--neon2));
+  display: grid; place-items: center;
+  font-size: 17px;
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(0,255,170,0.3), 0 0 20px rgba(0,255,170,0.2), 0 0 40px rgba(0,255,170,0.08);
+}
+.logo-mark::after {
+  content: '';
+  position: absolute; inset: -4px;
+  border-radius: 13px;
+  border: 1px solid rgba(0,255,170,0.12);
+}
+.logo-text {
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--white);
+}
+.logo-text em {
+  font-style: normal;
+  color: var(--neon);
+}
+.logo-version {
+  font-family: var(--code);
+  font-size: 0.6rem;
+  color: var(--text3);
+  letter-spacing: 1.5px;
+  background: var(--elevated);
+  border: 1px solid var(--rim);
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+.header-meta {
+  display: flex; align-items: center; gap: 20px;
+}
+.header-status {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--code);
+  font-size: 0.65rem;
+  color: var(--neon);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--neon);
+  box-shadow: 0 0 6px var(--neon), 0 0 12px rgba(0,255,170,0.3);
+  animation: dot-pulse 2.5s ease-in-out infinite;
+}
+@keyframes dot-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.header-clock {
+  font-family: var(--code);
+  font-size: 0.72rem;
+  color: var(--text3);
+  letter-spacing: 1px;
+}
+.header-divider {
+  width: 1px; height: 28px;
+  background: var(--rim);
+}
+
+/* ── SIDEBAR NAV ── */
+.layout {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - 64px);
+}
+
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--rim);
+  padding: 28px 0;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  background: rgba(7,12,20,0.5);
+  scrollbar-width: none;
+}
+.sidebar::-webkit-scrollbar { display: none; }
+
+.sidebar-section {
+  padding: 0 14px;
+  margin-bottom: 28px;
+}
+.sidebar-label {
+  font-family: var(--code);
+  font-size: 0.58rem;
+  color: var(--text3);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 0 8px;
+  margin-bottom: 8px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.18s;
+  position: relative;
+  margin-bottom: 2px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text3);
+  letter-spacing: 0.3px;
+  border: 1px solid transparent;
+  user-select: none;
+}
+.nav-item:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.04);
+}
+.nav-item.active {
+  color: var(--white);
+  background: rgba(0,255,170,0.07);
+  border-color: rgba(0,255,170,0.18);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute; left: -14px; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 22px;
+  background: var(--neon);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 8px var(--neon);
+}
+.nav-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  width: 20px;
+  text-align: center;
+}
+.nav-badge {
+  margin-left: auto;
+  font-family: var(--code);
+  font-size: 0.55rem;
+  padding: 2px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.badge-new { background: rgba(0,255,170,0.15); color: var(--neon); }
+.badge-pro { background: rgba(123,94,167,0.2); color: #b085f0; }
+.badge-free { background: rgba(0,212,255,0.12); color: var(--neon2); }
+
+.sidebar-divider { height: 1px; background: var(--rim); margin: 4px 14px 20px; }
+
+/* ── MAIN CONTENT ── */
+.main-content {
+  flex: 1;
+  padding: 36px 40px;
+  max-width: 900px;
+  min-width: 0;
+}
+
+/* Panel system */
+.panel { display: none; animation: panel-in 0.25s cubic-bezier(0.4,0,0.2,1); }
+.panel.active { display: block; }
+@keyframes panel-in { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* Page heading */
+.page-head {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--rim);
+}
+.page-eyebrow {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--code);
+  font-size: 0.63rem;
+  color: var(--neon);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.page-eyebrow span { opacity: 0.4; }
+.page-title {
+  font-family: var(--display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 8px;
+}
+.page-title em {
+  font-style: normal;
+  color: var(--neon);
+}
+.page-desc {
+  font-family: var(--code);
+  font-size: 0.74rem;
+  color: var(--text3);
+  line-height: 1.8;
+  max-width: 560px;
+}
+
+/* ── GLASS CARDS ── */
+.card {
+  background: linear-gradient(145deg, rgba(13,24,38,0.9) 0%, rgba(9,17,29,0.95) 100%);
+  border: 1px solid var(--rim);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+}
+.card:hover { border-color: var(--rim2); }
+
+.card-accent-green::after {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--neon), transparent);
+  opacity: 0.6;
+}
+.card-accent-blue::after {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--neon2), transparent);
+  opacity: 0.6;
+}
+.card-accent-purple::after {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, #b085f0, transparent);
+  opacity: 0.6;
+}
+.card-accent-red::after {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--danger), transparent);
+  opacity: 0.6;
+}
+
+.card-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 18px;
+}
+.card-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: grid; place-items: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.icon-green { background: rgba(0,255,170,0.1); box-shadow: inset 0 0 0 1px rgba(0,255,170,0.2); }
+.icon-blue  { background: rgba(0,212,255,0.1); box-shadow: inset 0 0 0 1px rgba(0,212,255,0.2); }
+.icon-purple{ background: rgba(176,133,240,0.1); box-shadow: inset 0 0 0 1px rgba(176,133,240,0.2); }
+.icon-red   { background: rgba(255,62,108,0.1); box-shadow: inset 0 0 0 1px rgba(255,62,108,0.2); }
+.icon-amber { background: rgba(255,184,77,0.1); box-shadow: inset 0 0 0 1px rgba(255,184,77,0.2); }
+
+.card-label {
+  font-family: var(--code);
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.card-title-text {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1;
+}
+
+/* ── INPUTS ── */
+.field-label {
+  font-family: var(--code);
+  font-size: 0.63rem;
+  color: var(--text3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input[type=text], input[type=password], input[type=number], textarea, select {
+  width: 100%;
+  background: rgba(3,5,10,0.7);
+  border: 1px solid var(--rim2);
+  border-radius: var(--radius);
+  padding: 11px 14px;
+  color: var(--text);
+  font-family: var(--code);
+  font-size: 0.86rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+  letter-spacing: 0.3px;
+}
+input:focus, textarea:focus, select:focus {
+  border-color: rgba(0,255,170,0.4);
+  box-shadow: 0 0 0 3px rgba(0,255,170,0.06), 0 0 20px rgba(0,255,170,0.04);
+}
+input::placeholder, textarea::placeholder { color: var(--text3); }
+textarea { min-height: 90px; line-height: 1.65; }
+select { cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%234a6a8a' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 32px;
+}
+select option { background: var(--deep); }
+
+.field-group { margin-bottom: 14px; }
+.field-row { display: grid; gap: 12px; }
+.col-2 { grid-template-columns: 1fr 1fr; }
+.col-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+/* ── RANGE SLIDER ── */
+.slider-wrap {
+  display: flex; align-items: center; gap: 14px;
+  margin: 10px 0;
+}
+input[type=range] {
+  flex: 1; appearance: none; height: 3px;
+  background: var(--elevated); border-radius: 2px;
+  border: none; padding: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  appearance: none; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--neon); cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(0,255,170,0.15), 0 0 12px rgba(0,255,170,0.4);
+  border: 2px solid rgba(0,0,0,0.4);
+}
+.slider-val {
+  font-family: var(--code); font-size: 1rem;
+  color: var(--neon); min-width: 32px; text-align: right; font-weight: 600;
+}
+
+/* ── CHECKBOXES ── */
+.check-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.check-pill {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 14px; border-radius: 999px;
+  border: 1px solid var(--rim2);
+  font-family: var(--code); font-size: 0.73rem;
+  cursor: pointer; transition: all 0.15s;
+  color: var(--text3); user-select: none;
+}
+.check-pill:hover { border-color: var(--rim3); color: var(--text); }
+.check-pill input { display: none; }
+.check-pill.checked {
+  border-color: rgba(0,255,170,0.3);
+  color: var(--neon);
+  background: rgba(0,255,170,0.05);
+}
+.check-pill .pill-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--text3); transition: all 0.15s;
+}
+.check-pill.checked .pill-dot { background: var(--neon); box-shadow: 0 0 6px var(--neon); }
+
+/* ── BUTTONS ── */
+.btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; border-radius: var(--radius);
+  font-family: var(--ui); font-size: 0.88rem; font-weight: 600;
+  letter-spacing: 0.5px; cursor: pointer; border: none;
+  transition: all 0.18s; white-space: nowrap; position: relative;
+  overflow: hidden;
+}
+.btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,0); transition: background 0.18s;
+}
+.btn:hover::before { background: rgba(255,255,255,0.06); }
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(0,255,170,0.9), rgba(0,220,140,0.9));
+  color: #03050a; font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(0,255,170,0.3), 0 4px 20px rgba(0,255,170,0.2);
+}
+.btn-primary:hover { box-shadow: 0 0 0 1px rgba(0,255,170,0.5), 0 4px 28px rgba(0,255,170,0.3); }
+
+.btn-secondary {
+  background: rgba(0,255,170,0.06);
+  color: var(--neon);
+  border: 1px solid rgba(0,255,170,0.2);
+}
+.btn-secondary:hover { background: rgba(0,255,170,0.1); }
+
+.btn-blue {
+  background: rgba(0,212,255,0.1);
+  color: var(--neon2);
+  border: 1px solid rgba(0,212,255,0.25);
+}
+.btn-blue:hover { background: rgba(0,212,255,0.16); }
+
+.btn-purple {
+  background: rgba(176,133,240,0.1);
+  color: #b085f0;
+  border: 1px solid rgba(176,133,240,0.25);
+}
+.btn-purple:hover { background: rgba(176,133,240,0.18); }
+
+.btn-danger {
+  background: rgba(255,62,108,0.06);
+  color: var(--danger);
+  border: 1px solid rgba(255,62,108,0.2);
+}
+.btn-danger:hover { background: rgba(255,62,108,0.12); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text3);
+  border: 1px solid var(--rim);
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--rim2); }
+
+.btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
+
+/* ── OUTPUT ── */
+.output-wrap {
+  margin-top: 14px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--rim);
+  border-radius: var(--radius);
+  position: relative;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  min-height: 50px;
+}
+.output-wrap:hover { border-color: rgba(0,255,170,0.2); }
+.output-content {
+  padding: 12px 46px 12px 14px;
+  font-family: var(--code);
+  font-size: 0.84rem;
+  color: var(--neon);
+  word-break: break-all;
+  line-height: 1.7;
+  min-height: 50px;
+  white-space: pre-wrap;
+}
+.output-placeholder { color: var(--text3) !important; }
+.output-error { color: var(--warn) !important; }
+.copy-btn {
+  position: absolute; top: 8px; right: 8px;
+  background: var(--elevated);
+  border: 1px solid var(--rim);
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-family: var(--code);
+  font-size: 0.6rem;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.copy-btn:hover { border-color: var(--neon); color: var(--neon); }
+.copy-btn.copied { border-color: var(--neon); color: var(--neon); }
+.copy-feedback {
+  font-family: var(--code); font-size: 0.65rem;
+  color: var(--neon); margin-top: 5px; opacity: 0;
+  transition: opacity 0.3s; height: 14px;
+}
+.copy-feedback.show { opacity: 1; }
+
+/* ── STRENGTH METER ── */
+.strength-track {
+  height: 5px; background: var(--elevated);
+  border-radius: 3px; overflow: hidden; margin: 14px 0 8px;
+}
+.strength-fill {
+  height: 100%; border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1), background 0.5s;
+  width: 0%;
+}
+.strength-info {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+.strength-label-text {
+  font-family: var(--display);
+  font-size: 0.95rem; font-weight: 600;
+}
+.strength-sub {
+  font-family: var(--code); font-size: 0.68rem;
+  color: var(--text3);
+}
+
+/* ── STAT GRID ── */
+.stat-row {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+  margin: 14px 0;
+}
+.stat-card {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--rim);
+  border-radius: var(--radius);
+  padding: 14px 12px;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+.stat-card:hover { border-color: var(--rim2); }
+.stat-num {
+  font-family: var(--display);
+  font-size: 1.4rem; font-weight: 700;
+  line-height: 1; margin-bottom: 4px;
+}
+.stat-lbl {
+  font-family: var(--code);
+  font-size: 0.6rem; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 1.5px;
+}
+
+/* ── CRITERIA GRID ── */
+.crit-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 7px; margin-top: 14px;
+}
+.crit-item {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--code); font-size: 0.72rem;
+  color: var(--text3); transition: color 0.2s;
+  padding: 6px 0;
+}
+.crit-item.met { color: var(--neon); }
+.crit-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--elevated); flex-shrink: 0; transition: all 0.2s;
+}
+.crit-item.met .crit-dot {
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon), 0 0 16px rgba(0,255,170,0.3);
+}
+
+/* ── HASH PILLS ── */
+.algo-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.algo-pill {
+  padding: 5px 12px; border-radius: 6px;
+  font-family: var(--code); font-size: 0.7rem;
+  border: 1px solid var(--rim2);
+  color: var(--text3); cursor: pointer;
+  transition: all 0.15s; user-select: none;
+}
+.algo-pill:hover { border-color: var(--rim3); color: var(--text); }
+.algo-pill.active {
+  border-color: rgba(0,212,255,0.4);
+  color: var(--neon2);
+  background: rgba(0,212,255,0.07);
+}
+.algo-pill.weak { border-color: rgba(255,62,108,0.3); color: #ff7a9a; }
+
+/* ── HASH TABLE ── */
+.hash-results {
+  border: 1px solid var(--rim);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 14px;
+}
+.hash-row-item {
+  display: grid;
+  grid-template-columns: 80px 56px 1fr 60px;
+  gap: 12px; align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.035);
+  transition: background 0.15s;
+}
+.hash-row-item:last-child { border-bottom: none; }
+.hash-row-item:hover { background: rgba(255,255,255,0.02); }
+.hr-algo { font-family: var(--code); font-size: 0.72rem; color: var(--neon2); font-weight: 600; }
+.hr-strength {
+  font-family: var(--code); font-size: 0.6rem;
+  padding: 2px 6px; border-radius: 4px; text-align: center;
+}
+.str-strong { background: rgba(0,255,170,0.1); color: var(--neon); }
+.str-weak   { background: rgba(255,62,108,0.1); color: var(--danger); }
+.hr-val { font-family: var(--code); font-size: 0.78rem; color: var(--text); word-break: break-all; line-height: 1.5; }
+.hr-copy {
+  font-family: var(--code); font-size: 0.6rem;
+  padding: 3px 8px; border-radius: 5px;
+  background: none; border: 1px solid var(--rim);
+  color: var(--text3); cursor: pointer; transition: all 0.15s;
+  white-space: nowrap;
+}
+.hr-copy:hover { border-color: var(--neon); color: var(--neon); }
+
+/* ── ENCODING TABS ── */
+.enc-bar { display: flex; gap: 0; border: 1px solid var(--rim); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+.enc-tab {
+  flex: 1; padding: 9px 14px; text-align: center;
+  font-family: var(--code); font-size: 0.72rem;
+  color: var(--text3); cursor: pointer; transition: all 0.15s;
+  border-right: 1px solid var(--rim); user-select: none;
+  letter-spacing: 0.5px;
+}
+.enc-tab:last-child { border-right: none; }
+.enc-tab:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+.enc-tab.active {
+  color: var(--warn);
+  background: rgba(255,184,77,0.07);
+}
+
+/* ── CIPHER CARDS ── */
+.cipher-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 20px;
+}
+.cipher-tile {
+  padding: 14px 10px; border-radius: var(--radius);
+  border: 1px solid var(--rim);
+  text-align: center; cursor: pointer;
+  transition: all 0.18s; user-select: none;
+  position: relative; overflow: hidden;
+}
+.cipher-tile:hover { border-color: var(--rim2); background: rgba(255,255,255,0.02); }
+.cipher-tile.active {
+  border-color: rgba(176,133,240,0.4);
+  background: rgba(176,133,240,0.06);
+}
+.cipher-tile.active::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #b085f0, transparent);
+}
+.ct-icon { font-size: 1.5rem; margin-bottom: 6px; }
+.ct-name { font-family: var(--ui); font-size: 0.82rem; font-weight: 600; color: var(--text); }
+.ct-desc { font-family: var(--code); font-size: 0.6rem; color: var(--text3); margin-top: 2px; }
+
+/* Caesar shift big number */
+.shift-big {
+  font-family: var(--display);
+  font-size: 3.5rem; font-weight: 800;
+  color: var(--neon); text-align: center;
+  line-height: 1; margin: 6px 0;
+  text-shadow: 0 0 30px rgba(0,255,170,0.3);
+}
+
+/* Morse display */
+.morse-display {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,184,77,0.2);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-family: var(--code); font-size: 0.9rem;
+  color: var(--warn); word-break: break-all; line-height: 1.8;
+  letter-spacing: 1.5px; margin-top: 10px; min-height: 44px;
+}
+
+/* Brute force */
+.brute-container {
+  max-height: 360px; overflow-y: auto;
+  border: 1px solid var(--rim); border-radius: var(--radius);
+  margin-top: 14px; scrollbar-width: thin;
+  scrollbar-color: var(--elevated) transparent;
+}
+.brute-row {
+  display: grid; grid-template-columns: 56px 1fr;
+  gap: 12px; align-items: start;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  transition: background 0.12s;
+}
+.brute-row:hover { background: rgba(0,255,170,0.03); cursor: pointer; }
+.brute-num { font-family: var(--code); font-size: 0.7rem; color: var(--neon2); font-weight: 600; }
+.brute-text { font-family: var(--code); font-size: 0.8rem; color: var(--text); }
+
+/* ── BASE CONVERTER ── */
+.convert-layout { display: grid; grid-template-columns: 1fr 32px 1fr; gap: 12px; align-items: end; margin-bottom: 14px; }
+.convert-arrow-icon { font-size: 1.2rem; color: var(--text3); padding-bottom: 10px; text-align: center; }
+.base-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.base-box {
+  background: rgba(0,0,0,0.3); border: 1px solid var(--rim);
+  border-radius: var(--radius); padding: 12px 14px; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.base-box:hover { border-color: rgba(0,255,170,0.2); }
+.base-box-label { font-family: var(--code); font-size: 0.6rem; color: var(--text3); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+.base-box-val { font-family: var(--code); font-size: 0.85rem; color: var(--neon); word-break: break-all; }
+
+/* ── BREACH ── */
+.privacy-strip {
+  background: rgba(255,62,108,0.04);
+  border: 1px solid rgba(255,62,108,0.15);
+  border-radius: var(--radius);
+  padding: 14px 16px; margin-bottom: 16px;
+}
+.privacy-row {
+  display: flex; justify-content: space-between;
+  font-family: var(--code); font-size: 0.74rem;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.privacy-row:last-child { border: none; }
+.priv-k { color: var(--text3); }
+.priv-v { color: var(--text); }
+.priv-v.safe-val { color: var(--neon); }
+
+.breach-card {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  margin-top: 14px;
+  border: 1px solid;
+  animation: panel-in 0.3s ease;
+}
+.breach-safe { border-color: rgba(0,255,170,0.3); background: rgba(0,255,170,0.04); }
+.breach-pwned { border-color: rgba(255,62,108,0.35); background: rgba(255,62,108,0.05); }
+.breach-emoji { font-size: 2rem; flex-shrink: 0; margin-top: 2px; }
+.breach-title { font-family: var(--display); font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+.breach-detail { font-family: var(--code); font-size: 0.72rem; color: var(--text3); line-height: 1.8; }
+.breach-meter { height: 3px; background: var(--elevated); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+.breach-fill { height: 100%; border-radius: 2px; background: var(--danger); transition: width 1s ease; }
+
+/* ── SPINNER ── */
+.spinner {
+  display: inline-block; width: 13px; height: 13px;
+  border: 2px solid rgba(0,255,170,0.15);
+  border-top-color: var(--neon);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle; margin-right: 7px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--rim);
+  padding: 20px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+  background: rgba(7,12,20,0.7);
+}
+.footer-left {
+  font-family: var(--code); font-size: 0.65rem;
+  color: var(--text3); letter-spacing: 1px;
+}
+.footer-left strong { color: var(--text2); }
+.footer-right {
+  display: flex; gap: 16px;
+  font-family: var(--code); font-size: 0.63rem;
+  color: var(--text3); letter-spacing: 0.5px;
+}
+.footer-tag {
+  display: flex; align-items: center; gap: 5px;
+}
+.footer-tag::before { content: '●'; font-size: 0.5rem; }
+
+/* ── MULTI-PASSWORD LIST ── */
+.pw-list-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--rim); border-radius: 8px;
+  margin-bottom: 6px;
+  font-family: var(--code); font-size: 0.82rem;
+  color: var(--neon); gap: 10px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main-content { padding: 24px 20px; }
+  footer { padding: 16px 20px; }
+}
+@media (max-width: 600px) {
+  header { padding: 0 16px; }
+  .main-content { padding: 20px 14px; }
+  .col-2, .col-3, .stat-row, .crit-grid, .base-grid { grid-template-columns: 1fr; }
+  .cipher-selector { grid-template-columns: 1fr 1fr; }
+  .convert-layout { grid-template-columns: 1fr; }
+  .convert-arrow-icon { display: none; }
+}
+
+/* ── VIGENERE / SPECIAL ── */
+.cipher-extra { margin-bottom: 14px; }
+.info-callout {
+  background: rgba(0,212,255,0.04);
+  border: 1px solid rgba(0,212,255,0.12);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-family: var(--code); font-size: 0.72rem;
+  color: var(--text3); line-height: 1.7; margin-bottom: 14px;
+}
+.info-callout strong { color: var(--neon2); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--elevated); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--rim3); }
+</style>
+</head>
+<body>
+
+<!-- Atmospheric bg -->
+<div class="bg-canvas">
+  <div class="bg-grid"></div>
+  <div class="bg-orb-1"></div>
+  <div class="bg-orb-2"></div>
+  <div class="bg-orb-3"></div>
+  <div class="bg-scanline"></div>
+</div>
+<div class="top-line"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-area">
+    <div class="logo-mark">🔐</div>
+    <div>
+      <div class="logo-text">Cipher<em>Kit</em></div>
+    </div>
+    <div class="logo-version">v3.0 PRO</div>
+  </div>
+  <div class="header-meta">
+    <div class="header-status">
+      <div class="status-dot"></div>
+      All Systems Online
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-clock" id="clock">—</div>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-section">
+    <div class="sidebar-label">Core Tools</div>
+    <div class="nav-item active" id="nav-password" onclick="setPanel('password',this)">
+      <span class="nav-icon">🔑</span> Password Suite
+      <span class="nav-badge badge-new">HOT</span>
+    </div>
+    <div class="nav-item" id="nav-hash" onclick="setPanel('hash',this)">
+      <span class="nav-icon">⚙️</span> Hash Engine
+    </div>
+    <div class="nav-item" id="nav-encoding" onclick="setPanel('encoding',this)">
+      <span class="nav-icon">🔄</span> Encoding Lab
+    </div>
+    <div class="nav-item" id="nav-cipher" onclick="setPanel('cipher',this)">
+      <span class="nav-icon">🔤</span> Cipher Suite
+    </div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Advanced</div>
+    <div class="nav-item" id="nav-convert" onclick="setPanel('convert',this)">
+      <span class="nav-icon">🔢</span> Base Converter
+    </div>
+    <div class="nav-item" id="nav-breach" onclick="setPanel('breach',this)">
+      <span class="nav-icon">🛡️</span> Breach Checker
+      <span class="nav-badge badge-free">FREE</span>
+    </div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Security Note</div>
+    <div style="font-family:var(--code);font-size:0.62rem;color:var(--text3);line-height:1.7;padding:0 4px">
+      All operations run<br>on your local server.<br>
+      <span style="color:var(--neon)">Zero data sent externally</span><br>
+      except breach checks<br>(k-Anonymity protected).
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+<!-- ═══ 01 PASSWORD ═══ -->
+<div class="panel active" id="panel-password">
+  <div class="page-head">
+    <div class="page-eyebrow"><span>//</span> Module 01 <span>/</span> Core Security</div>
+    <div class="page-title">Password <em>Suite</em></div>
+    <div class="page-desc">Cryptographically secure generation using Python's secrets module — the same standard used by banks and financial institutions. Real-time entropy analysis with crack-time estimation.</div>
+  </div>
+
+  <!-- Generator -->
+  <div class="card card-accent-green">
+    <div class="card-header">
+      <div class="card-icon icon-green">⚡</div>
+      <div>
+        <div class="card-label">Generator</div>
+        <div class="card-title-text">Secure Password Generator</div>
+      </div>
+    </div>
+
+    <div class="slider-wrap">
+      <span style="font-family:var(--code);font-size:0.72rem;color:var(--text3)">LENGTH</span>
+      <input type="range" id="pwLen" min="6" max="128" value="16"
+        oninput="document.getElementById('pwLenVal').textContent=this.value">
+      <span class="slider-val" id="pwLenVal">16</span>
+    </div>
+
+    <div class="check-grid" id="checkGrid">
+      <label class="check-pill checked" onclick="togglePill(this,'useUpper')">
+        <input type="checkbox" id="useUpper" checked>
+        <div class="pill-dot"></div>A–Z Uppercase
+      </label>
+      <label class="check-pill checked" onclick="togglePill(this,'useLower')">
+        <input type="checkbox" id="useLower" checked>
+        <div class="pill-dot"></div>a–z Lowercase
+      </label>
+      <label class="check-pill checked" onclick="togglePill(this,'useNum')">
+        <input type="checkbox" id="useNum" checked>
+        <div class="pill-dot"></div>0–9 Numbers
+      </label>
+      <label class="check-pill checked" onclick="togglePill(this,'useSym')">
+        <input type="checkbox" id="useSym" checked>
+        <div class="pill-dot"></div>!@# Symbols
+      </label>
+      <label class="check-pill" onclick="togglePill(this,'noAmbig')">
+        <input type="checkbox" id="noAmbig">
+        <div class="pill-dot"></div>Exclude 0,O,l,I
+      </label>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="genPassword()">⚡ Generate Password</button>
+      <button class="btn btn-secondary" onclick="genMultiple()">📋 Generate 5 Passwords</button>
+    </div>
+
+    <div class="output-wrap" onclick="copyOutput('pwOut','pwCopyFb')">
+      <div class="output-content output-placeholder" id="pwOut">— press Generate to create a cryptographically secure password —</div>
+      <button class="copy-btn" id="pwCopyBtn">COPY</button>
+    </div>
+    <div class="copy-feedback" id="pwCopyFb">✓ Copied to clipboard</div>
+    <div id="multiPwList" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Strength Analyzer -->
+  <div class="card card-accent-blue">
+    <div class="card-header">
+      <div class="card-icon icon-blue">📊</div>
+      <div>
+        <div class="card-label">Real-time Analysis</div>
+        <div class="card-title-text">Password Strength Analyzer</div>
+      </div>
+    </div>
+
+    <label class="field-label">Password to analyze</label>
+    <input type="text" id="strInput" placeholder="Type or paste any password to analyze…"
+      oninput="analyzeStrength(this.value)" autocomplete="off" spellcheck="false">
+
+    <div class="strength-track"><div class="strength-fill" id="strBar"></div></div>
+    <div class="strength-info">
+      <div class="strength-label-text" id="strLabel" style="color:var(--text3)">Awaiting input</div>
+      <div class="strength-sub" id="strSub"></div>
+    </div>
+
+    <div class="stat-row" id="strStats" style="display:none">
+      <div class="stat-card">
+        <div class="stat-num" id="st-entropy">—</div>
+        <div class="stat-lbl">Entropy Bits</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="st-len">—</div>
+        <div class="stat-lbl">Characters</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="st-crack" style="font-size:0.9rem">—</div>
+        <div class="stat-lbl">Crack Time</div>
+      </div>
+    </div>
+
+    <div class="crit-grid">
+      <div class="crit-item" id="cr-len8"><div class="crit-dot"></div>Minimum 8 characters</div>
+      <div class="crit-item" id="cr-upper"><div class="crit-dot"></div>Uppercase letters (A–Z)</div>
+      <div class="crit-item" id="cr-lower"><div class="crit-dot"></div>Lowercase letters (a–z)</div>
+      <div class="crit-item" id="cr-num"><div class="crit-dot"></div>Numeric digits (0–9)</div>
+      <div class="crit-item" id="cr-sym"><div class="crit-dot"></div>Special characters</div>
+      <div class="crit-item" id="cr-len12"><div class="crit-dot"></div>12+ characters</div>
+      <div class="crit-item" id="cr-len16"><div class="crit-dot"></div>16+ characters (enterprise)</div>
+      <div class="crit-item" id="cr-norep"><div class="crit-dot"></div>No repeated sequences</div>
+      <div class="crit-item" id="cr-noseq"><div class="crit-dot"></div>No common patterns</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 02 HASH ENGINE ═══ -->
+<div class="panel" id="panel-hash">
+  <div class="page-head">
+    <div class="page-eyebrow"><span>//</span> Module 02 <span>/</span> Cryptography</div>
+    <div class="page-title">Hash <em>Engine</em></div>
+    <div class="page-desc">9 cryptographic algorithms. SHA-3 and BLAKE2 — the same hash functions used by blockchain networks, Linux kernel, and enterprise security systems. Generate all hashes simultaneously.</div>
+  </div>
+
+  <div class="card card-accent-blue">
+    <div class="card-header">
+      <div class="card-icon icon-blue">⚙️</div>
+      <div>
+        <div class="card-label">Hashing Engine</div>
+        <div class="card-title-text">Cryptographic Hash Generator</div>
+      </div>
+    </div>
+
+    <div class="algo-pills" id="hashPills">
+      <div class="algo-pill active" onclick="setHashAlgo('sha256',this)">SHA-256</div>
+      <div class="algo-pill" onclick="setHashAlgo('sha512',this)">SHA-512</div>
+      <div class="algo-pill" onclick="setHashAlgo('sha384',this)">SHA-384</div>
+      <div class="algo-pill" onclick="setHashAlgo('sha3_256',this)">SHA3-256</div>
+      <div class="algo-pill" onclick="setHashAlgo('sha3_512',this)">SHA3-512</div>
+      <div class="algo-pill" onclick="setHashAlgo('blake2b',this)">BLAKE2b</div>
+      <div class="algo-pill" onclick="setHashAlgo('blake2s',this)">BLAKE2s</div>
+      <div class="algo-pill weak" onclick="setHashAlgo('sha1',this)">SHA-1 ⚠</div>
+      <div class="algo-pill weak" onclick="setHashAlgo('md5',this)">MD5 ⚠</div>
+    </div>
+
+    <textarea id="hashInput" placeholder="Enter text, paste data, or type any string to hash…"></textarea>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="doHash()">⚙️ Generate Hash</button>
+      <button class="btn btn-blue" onclick="doAllHashes()">📊 All 9 Algorithms</button>
+      <button class="btn btn-ghost" onclick="clearEl('hashInput');hideEl('hashAllWrap');setOutPlaceholder('hashOut','— hash will appear here —')">Clear</button>
+    </div>
+
+    <div class="output-wrap" onclick="copyOutput('hashOut','hashCopyFb')">
+      <div class="output-content output-placeholder" id="hashOut">— hash will appear here —</div>
+      <button class="copy-btn" id="hashCopyBtn">COPY</button>
+    </div>
+    <div class="copy-feedback" id="hashCopyFb">✓ Copied</div>
+
+    <div id="hashAllWrap" style="display:none;margin-top:14px">
+      <div class="hash-results" id="hashAllTable"></div>
+    </div>
+  </div>
+
+  <!-- HMAC -->
+  <div class="card card-accent-purple">
+    <div class="card-header">
+      <div class="card-icon icon-purple">🔑</div>
+      <div>
+        <div class="card-label">Message Authentication</div>
+        <div class="card-title-text">HMAC Generator</div>
+      </div>
+    </div>
+    <div class="info-callout">
+      <strong>What is HMAC?</strong> Hash-based Message Authentication Code proves both <strong>integrity</strong> (message not modified) and <strong>authenticity</strong> (sender had the key). Used by Stripe, GitHub, AWS, and every major API.
+    </div>
+    <div class="field-row col-2" style="margin-bottom:12px">
+      <div class="field-group">
+        <label class="field-label">Message</label>
+        <input type="text" id="hmacMsg" placeholder="Message to authenticate…"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Secret Key</label>
+        <input type="text" id="hmacKey" placeholder="Your secret key…"/>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Algorithm</label>
+      <select id="hmacAlgo">
+        <option value="sha256">HMAC-SHA256 (Recommended)</option>
+        <option value="sha512">HMAC-SHA512 (High Security)</option>
+        <option value="sha1">HMAC-SHA1 (Legacy)</option>
+      </select>
+    </div>
+    <div class="btn-group">
+      <button class="btn btn-purple" onclick="doHMAC()">🔑 Generate HMAC</button>
+    </div>
+    <div class="output-wrap" onclick="copyOutput('hmacOut','hmacCopyFb')">
+      <div class="output-content output-placeholder" id="hmacOut">— HMAC will appear here —</div>
+      <button class="copy-btn">COPY</button>
+    </div>
+    <div class="copy-feedback" id="hmacCopyFb">✓ Copied</div>
+  </div>
+</div>
+
+<!-- ═══ 03 ENCODING ═══ -->
+<div class="panel" id="panel-encoding">
+  <div class="page-head">
+    <div class="page-eyebrow"><span>//</span> Module 03 <span>/</span> Data Transformation</div>
+    <div class="page-title">Encoding <em>Lab</em></div>
+    <div class="page-desc">Base64, Hexadecimal, Binary, and URL encoding — the backbone of web communication, APIs, and data storage. Encode and decode any data instantly.</div>
+  </div>
+
+  <div class="card card-accent-green" style="border-color:rgba(255,184,77,0.2)">
+    <div class="card-header">
+      <div class="card-icon icon-amber">🔄</div>
+      <div>
+        <div class="card-label">Encode / Decode</div>
+        <div class="card-title-text">Multi-Format Encoder</div>
+      </div>
+    </div>
+
+    <div class="enc-bar">
+      <div class="enc-tab active" onclick="setEncMethod('base64',this)">Base64</div>
+      <div class="enc-tab" onclick="setEncMethod('hex',this)">Hexadecimal</div>
+      <div class="enc-tab" onclick="setEncMethod('binary',this)">Binary</div>
+      <div class="enc-tab" onclick="setEncMethod('url',this)">URL Encode</div>
+    </div>
+
+    <div class="info-callout" id="encInfo">
+      <strong>Base64</strong> encodes binary data as ASCII text. Widely used in email attachments, JWT tokens, HTML image embeds, and HTTP Basic Authentication.
+    </div>
+
+    <textarea id="encInput" placeholder="Enter text to encode, or encoded string to decode…"></textarea>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="doEncode('encode')">🔒 Encode</button>
+      <button class="btn btn-secondary" onclick="doEncode('decode')">🔓 Decode</button>
+      <button class="btn btn-ghost" onclick="clearEl('encInput');setOutPlaceholder('encOut','— output will appear here —')">Clear</button>
+    </div>
+
+    <div class="output-wrap" onclick="copyOutput('encOut','encCopyFb')">
+      <div class="output-content output-placeholder" id="encOut">— output will appear here —</div>
+      <button class="copy-btn">COPY</button>
+    </div>
+    <div class="copy-feedback" id="encCopyFb">✓ Copied</div>
+  </div>
+</div>
+
+<!-- ═══ 04 CIPHER SUITE ═══ -->
+<div class="panel" id="panel-cipher">
+  <div class="page-head">
+    <div class="page-eyebrow"><span>//</span> Module 04 <span>/</span> Classical Cryptography</div>
+    <div class="page-title">Cipher <em>Suite</em></div>
+    <div class="page-desc">Six classical encryption systems — from Julius Caesar's ancient substitution cipher to Morse code used by radio operators. Includes brute-force cryptanalysis.</div>
+  </div>
+
+  <div class="card card-accent-purple">
+    <div class="card-header">
+      <div class="card-icon icon-purple">🔤</div>
+      <div>
+        <div class="card-label">Cipher Engine</div>
+        <div class="card-title-text">Classical Encryption</div>
+      </div>
+    </div>
+
+    <div class="cipher-selector">
+      <div class="cipher-tile active" id="ct-caesar" onclick="setCipher('caesar',this)">
+        <div class="ct-icon">🔤</div>
+        <div class="ct-name">Caesar</div>
+        <div class="ct-desc">Shift cipher</div>
+      </div>
+      <div class="cipher-tile" id="ct-vigenere" onclick="setCipher('vigenere',this)">
+        <div class="ct-icon">🗝️</div>
+        <div class="ct-name">Vigenère</div>
+        <div class="ct-desc">Keyword cipher</div>
+      </div>
+      <div class="cipher-tile" id="ct-atbash" onclick="setCipher('atbash',this)">
+        <div class="ct-icon">🔁</div>
+        <div class="ct-name">Atbash</div>
+        <div class="ct-desc">Mirror cipher</div>
+      </div>
+      <div class="cipher-tile" id="ct-rot13" onclick="setCipher('rot13',this)">
+        <div class="ct-icon">↩️</div>
+        <div class="ct-name">ROT-13</div>
+        <div class="ct-desc">Half rotation</div>
+      </div>
+      <div class="cipher-tile" id="ct-morse" onclick="setCipher('morse',this)">
+        <div class="ct-icon">📡</div>
+        <div class="ct-name">Morse Code</div>
+        <div class="ct-desc">Dot-dash</div>
+      </div>
+      <div class="cipher-tile" id="ct-caesar_brute" onclick="setCipher('caesar_brute',this)">
+        <div class="ct-icon">💥</div>
+        <div class="ct-name">Brute Force</div>
+        <div class="ct-desc">All 25 shifts</div>
+      </div>
+    </div>
+
+    <div class="info-callout" id="cipherInfo">
+      <strong>Caesar Cipher</strong> — shifts each letter N positions in the alphabet. Julius Caesar used shift 3 to communicate with his generals. ROT13 is a special case (shift 13) where encoding and decoding are identical.
+    </div>
+
+    <!-- Caesar shift -->
+    <div id="caesarOpts" class="cipher-extra">
+      <label class="field-label">Shift Amount</label>
+      <div class="shift-big" id="shiftBig">13</div>
+      <input type="range" id="shiftRange" min="1" max="25" value="13"
+        oninput="document.getElementById('shiftBig').textContent=this.value"
+        style="width:100%;margin-bottom:12px">
+    </div>
+
+    <!-- Vigenere -->
+    <div id="vigenereOpts" class="cipher-extra" style="display:none">
+      <label class="field-label">Cipher Key (letters only)</label>
+      <input type="text" id="vigKey" placeholder="e.g. SECRET" style="text-transform:uppercase;margin-bottom:4px">
+      <div style="font-family:var(--code);font-size:0.65rem;color:var(--text3)">Key length determines shift pattern — longer key = stronger encryption</div>
+    </div>
+
+    <label class="field-label" style="margin-top:8px">Input Text</label>
+    <textarea id="cipherInput" placeholder="Enter text to encrypt or decrypt…"></textarea>
+
+    <div class="btn-group" id="cipherBtns">
+      <button class="btn btn-primary" onclick="doCipher('encode')">🔒 Encode / Encrypt</button>
+      <button class="btn btn-secondary" onclick="doCipher('decode')">🔓 Decode / Decrypt</button>
+      <button class="btn btn-ghost" onclick="clearCipher()">Clear</button>
+    </div>
+
+    <div class="output-wrap" onclick="copyOutput('cipherOut','cipherCopyFb')" style="margin-top:14px">
+      <div class="output-content output-placeholder" id="cipherOut">— result will appear here —</div>
+      <button class="copy-btn">COPY</button>
+    </div>
+    <div class="copy-feedback" id="cipherCopyFb">✓ Copied</div>
+
+    <!-- Morse visual -->
+    <div id="morseWrap" style="display:none">
+      <label class="field-label" style="margin-top:14px">Morse Preview</label>
+      <div class="morse-display" id="morseDisp">—</div>
+    </div>
+
+    <!-- Brute force -->
+    <div id="bruteWrap" style="display:none;margin-top:14px">
+      <label class="field-label">All 25 Possible Decryptions</label>
+      <div class="brute-container">
+        <div id="bruteTbody"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 05 BASE CONVERTER ═══ -->
+<div class="panel" id="panel-convert">
+  <div class="page-head">
+    <div class="page-eyebrow"><span>//</span> Module 05 <span>/</span> Number Systems</div>
+    <div class="page-title">Base <em>Converter</em></div>
+    <div class="page-desc">Convert numbers between Binary, Octal, Decimal, Hexadecimal, and any base up to 36. Essential for networking, memory addressing, and low-level programming.</div>
+  </div>
+
+  <div class="card card-accent-blue">
+    <div class="card-header">
+      <div class="card-icon icon-blue">🔢</div>
+      <div>
+        <div class="card-label">Number Systems</div>
+        <div class="card-title-text">Multi-Base Converter</div>
+      </div>
+    </div>
+
+    <div class="convert-layout">
+      <div class="field-group">
+        <label class="field-label">From Base</label>
+        <select id="fromBase">
+          <option value="2">Binary — Base 2</option>
+          <option value="8">Octal — Base 8</option>
+          <option value="10" selected>Decimal — Base 10</option>
+          <option value="16">Hexadecimal — Base 16</option>
+          <option value="32">Base 32</option>
+          <option value="36">Base 36</option>
+        </select>
+      </div>
+      <div class="convert-arrow-icon">→</div>
+      <div class="field-group">
+        <label class="field-label">To Base</label>
+        <select id="toBase">
+          <option value="2" selected>Binary — Base 2</option>
+          <option value="8">Octal — Base 8</option>
+          <option value="10">Decimal — Base 10</option>
+          <option value="16">Hexadecimal — Base 16</option>
+          <option value="32">Base 32</option>
+          <option value="36">Base 36</option>
+        </select>
+      </div>
+    </div>
+
+    <label class="field-label">Number Input</label>
+    <input type="text" id="convertInput" placeholder="Enter a number to convert…" oninput="doConvert()">
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="doConvert()">🔢 Convert</button>
+      <button class="btn btn-ghost" onclick="clearEl('convertInput');hideEl('convertResults')">Clear</button>
+    </div>
+
+    <div id="convertResults" style="display:none">
+      <div class="base-grid" style="margin-top:16px">
+        <div class="base-box" onclick="copyText(document.getElementById('resBin').textContent)">
+          <div class="base-box-label">Binary — Base 2</div>
+          <div class="base-box-val" id="resBin">—</div>
+        </div>
+        <div class="base-box" onclick="copyText(document.getElementById('resOct').textContent)">
+          <div class="base-box-label">Octal — Base 8</div>
+          <div class="base-box-val" id="resOct">—</div>
+        </div>
+        <div class="base-box" onclick="copyText(document.getElementById('resDec').textContent)">
+          <div class="base-box-label">Decimal — Base 10</div>
+          <div class="base-box-val" id="resDec">—</div>
+        </div>
+        <div class="base-box" onclick="copyText(document.getElementById('resHex').textContent)">
+          <div class="base-box-label">Hexadecimal — Base 16</div>
+          <div class="base-box-val" id="resHex">—</div>
+        </div>
+      </div>
+      <div class="output-wrap" onclick="copyOutput('convertOut','convertCopyFb')" style="margin-top:10px">
+        <div class="output-content" id="convertOut">—</div>
+        <button class="copy-btn">COPY</button>
+      </div>
+      <div class="copy-feedback" id="convertCopyFb">✓ Copied</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 06 BREACH CHECKER ═══ -->
+<div class="panel" id="panel-breach">
+  <div class="page-head">
+    <div class="page-eyebrow"><span>//</span> Module 06 <span>/</span> Threat Intelligence</div>
+    <div class="page-title">Breach <em>Checker</em></div>
+    <div class="page-desc">Check if a password has been exposed in any known data breach — powered by HaveIBeenPwned's database of 800 million+ compromised passwords. Fully private via k-Anonymity.</div>
+  </div>
+
+  <div class="privacy-strip">
+    <div style="font-family:var(--code);font-size:0.63rem;color:var(--neon);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">🔒 Privacy Architecture</div>
+    <div class="privacy-row"><span class="priv-k">Protocol</span><span class="priv-v">k-Anonymity (Pwned Passwords API)</span></div>
+    <div class="privacy-row"><span class="priv-k">Data sent to API</span><span class="priv-v">First 5 characters of SHA-1 hash only</span></div>
+    <div class="privacy-row"><span class="priv-k">Your actual password</span><span class="priv-v safe-val">NEVER leaves your device — ever</span></div>
+    <div class="privacy-row"><span class="priv-k">Database size</span><span class="priv-v">800,000,000+ breached passwords</span></div>
+    <div class="privacy-row"><span class="priv-k">Cost to use</span><span class="priv-v safe-val">100% Free (normally $99+/yr commercially)</span></div>
+  </div>
+
+  <div class="card card-accent-red">
+    <div class="card-header">
+      <div class="card-icon icon-red">🛡️</div>
+      <div>
+        <div class="card-label">Threat Intelligence</div>
+        <div class="card-title-text">Password Breach Scanner</div>
+      </div>
+    </div>
+
+    <label class="field-label">Password to Check</label>
+    <input type="password" id="breachInput" placeholder="Enter password to check against breach database…" autocomplete="new-password">
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="doBreach()">🛡️ Scan Breach Database</button>
+      <button class="btn btn-ghost" onclick="clearEl('breachInput');hideEl('breachResult')">Clear</button>
+    </div>
+
+    <div id="breachResult"></div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <strong>CipherKit</strong> v3.0 Pro &nbsp;·&nbsp; Python / Flask Backend &nbsp;·&nbsp; Local Server
+  </div>
+  <div class="footer-right">
+    <div class="footer-tag">Cryptographically Secure</div>
+    <div class="footer-tag">Zero Cloud Storage</div>
+    <div class="footer-tag">Educational Use</div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════
+// CIPHERKIT v3 — JavaScript Engine
+// ═══════════════════════════════════
+
+// ── CLOCK ──
+const clockEl = document.getElementById('clock');
+function updateClock() {
+  const n = new Date();
+  const pad = v => String(v).padStart(2,'0');
+  clockEl.textContent = `${pad(n.getUTCHours())}:${pad(n.getUTCMinutes())}:${pad(n.getUTCSeconds())} UTC`;
+}
+updateClock(); setInterval(updateClock, 1000);
+
+// ── PANEL NAV ──
+function setPanel(name, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── CHECK PILLS ──
+function togglePill(label, id) {
+  const cb = document.getElementById(id);
+  cb.checked = !cb.checked;
+  label.classList.toggle('checked', cb.checked);
+}
+
+// ── OUTPUT HELPERS ──
+function setOut(id, text, cls='') {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'output-content' + (cls ? ' ' + cls : '');
+}
+function setOutPlaceholder(id, text) { setOut(id, text, 'output-placeholder'); }
+function setOutError(id, text) { setOut(id, '⚠ ' + text, 'output-error'); }
+function clearEl(id) { document.getElementById(id).value = ''; }
+function hideEl(id) { document.getElementById(id).style.display = 'none'; }
+
+function copyOutput(outId, fbId) {
+  const el = document.getElementById(outId);
+  const text = el.textContent;
+  if (!text || el.classList.contains('output-placeholder') || el.classList.contains('output-error')) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const fb = document.getElementById(fbId);
+    if (fb) { fb.classList.add('show'); setTimeout(() => fb.classList.remove('show'), 2000); }
+  });
+}
+function copyText(text) {
+  if (!text || text === '—') return;
+  navigator.clipboard.writeText(text);
+}
+
+// ── API ──
+async function api(endpoint, body) {
+  const r = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+
+// ═══ 01 PASSWORD ═══
+async function genPassword() {
+  const btn = event.target;
+  btn.disabled = true;
+  try {
+    const data = await api('/api/password/generate', {
+      length: +document.getElementById('pwLen').value,
+      upper: document.getElementById('useUpper').checked,
+      lower: document.getElementById('useLower').checked,
+      nums:  document.getElementById('useNum').checked,
+      syms:  document.getElementById('useSym').checked,
+      exclude_ambiguous: document.getElementById('noAmbig').checked,
+    });
+    if (data.error) { setOutError('pwOut', data.error); return; }
+    setOut('pwOut', data.password);
+    document.getElementById('strInput').value = data.password;
+    renderStrength(data.strength);
+  } finally { btn.disabled = false; }
+}
+
+async function genMultiple() {
+  const list = document.getElementById('multiPwList');
+  list.innerHTML = '<div style="font-family:var(--code);font-size:0.62rem;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">5 Secure Passwords — Click to Copy</div>';
+  const config = {
+    length: +document.getElementById('pwLen').value,
+    upper: document.getElementById('useUpper').checked,
+    lower: document.getElementById('useLower').checked,
+    nums:  document.getElementById('useNum').checked,
+    syms:  document.getElementById('useSym').checked,
+  };
+  for (let i = 0; i < 5; i++) {
+    const data = await api('/api/password/generate', config);
+    if (data.error) break;
+    const div = document.createElement('div');
+    div.className = 'pw-list-item';
+    div.innerHTML = `<span style="word-break:break-all">${esc(data.password)}</span>
+      <button onclick="navigator.clipboard.writeText('${esc(data.password)}');this.textContent='✓';setTimeout(()=>this.textContent='COPY',1500)"
+        style="background:none;border:1px solid var(--rim);color:var(--text3);font-family:var(--code);font-size:0.6rem;padding:3px 10px;cursor:pointer;border-radius:5px;white-space:nowrap;flex-shrink:0">COPY</button>`;
+    list.appendChild(div);
+  }
+}
+
+async function analyzeStrength(pw) {
+  const crits = ['cr-len8','cr-upper','cr-lower','cr-num','cr-sym','cr-len12','cr-len16','cr-norep','cr-noseq'];
+  if (!pw) {
+    document.getElementById('strBar').style.width = '0%';
+    document.getElementById('strLabel').textContent = 'Awaiting input';
+    document.getElementById('strLabel').style.color = 'var(--text3)';
+    document.getElementById('strSub').textContent = '';
+    document.getElementById('strStats').style.display = 'none';
+    crits.forEach(id => document.getElementById(id)?.classList.remove('met'));
+    return;
+  }
+  const data = await api('/api/password/strength', { password: pw });
+  renderStrength(data);
+}
+
+function renderStrength(data) {
+  const bar = document.getElementById('strBar');
+  const lbl = document.getElementById('strLabel');
+  const sub = document.getElementById('strSub');
+  bar.style.width = data.pct + '%';
+  bar.style.background = data.color;
+  lbl.textContent = data.label;
+  lbl.style.color = data.color;
+  sub.textContent = data.entropy ? `${data.entropy} bits entropy` : '';
+  const stats = document.getElementById('strStats');
+  stats.style.display = 'grid';
+  const setS = (id, val, col) => {
+    const el = document.getElementById(id);
+    el.textContent = val;
+    el.style.color = col || data.color;
+  };
+  setS('st-entropy', data.entropy || '—');
+  setS('st-len', data.length || '—');
+  setS('st-crack', data.crack_time || '—');
+
+  const c = data.criteria || {};
+  const map = {
+    'cr-len8': c.length_8, 'cr-upper': c.uppercase, 'cr-lower': c.lowercase,
+    'cr-num': c.numbers, 'cr-sym': c.symbols, 'cr-len12': c.length_12,
+    'cr-len16': c.length_16, 'cr-norep': c.no_repeat, 'cr-noseq': c.no_sequence
+  };
+  Object.entries(map).forEach(([id, met]) => {
+    document.getElementById(id)?.classList.toggle('met', !!met);
+  });
+}
+
+// ═══ 02 HASH ═══
+let curHash = 'sha256';
+function setHashAlgo(algo, el) {
+  curHash = algo;
+  document.querySelectorAll('.algo-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+async function doHash() {
+  const text = document.getElementById('hashInput').value;
+  if (!text.trim()) { setOutError('hashOut', 'Enter text to hash'); return; }
+  const data = await api('/api/hash/generate', { text, algorithm: curHash });
+  if (data.error) { setOutError('hashOut', data.error); return; }
+  setOut('hashOut', data.hash, '');
+  document.getElementById('hashOut').style.color = 'var(--neon2)';
+  hideEl('hashAllWrap');
+}
+
+const hashStrength = {
+  'MD5':'Weak','SHA-1':'Weak','SHA-256':'Strong','SHA-384':'Strong','SHA-512':'Strong',
+  'SHA3-256':'Strong','SHA3-512':'Strong','BLAKE2b':'Strong','BLAKE2s':'Strong'
+};
+async function doAllHashes() {
+  const text = document.getElementById('hashInput').value;
+  if (!text.trim()) { setOutError('hashOut', 'Enter text to hash'); return; }
+  const data = await api('/api/hash/generate', { text, algorithm: 'all' });
+  if (data.error) { setOutError('hashOut', data.error); return; }
+  setOut('hashOut', `${Object.keys(data.hashes).length} hashes generated — see table below`);
+
+  const wrap = document.getElementById('hashAllWrap');
+  const table = document.getElementById('hashAllTable');
+  wrap.style.display = 'block';
+
+  table.innerHTML = Object.entries(data.hashes).map(([algo, hash]) => {
+    const str = hashStrength[algo] || 'Strong';
+    const strCls = str === 'Weak' ? 'str-weak' : 'str-strong';
+    return `<div class="hash-row-item">
+      <div class="hr-algo">${algo}</div>
+      <div class="hr-strength ${strCls}">${str}</div>
+      <div class="hr-val">${hash}</div>
+      <button class="hr-copy" onclick="navigator.clipboard.writeText('${hash}');this.textContent='✓';setTimeout(()=>this.textContent='COPY',1500)">COPY</button>
+    </div>`;
+  }).join('');
+}
+
+async function doHMAC() {
+  const msg = document.getElementById('hmacMsg').value;
+  const key = document.getElementById('hmacKey').value;
+  if (!msg || !key) { setOutError('hmacOut', 'Message and key required'); return; }
+  const data = await api('/api/cipher', {
+    text: msg, cipher: 'hmac', key, hmac_algo: document.getElementById('hmacAlgo').value
+  });
+  if (data.error) { setOutError('hmacOut', data.error); return; }
+  setOut('hmacOut', data.result);
+  document.getElementById('hmacOut').style.color = '#b085f0';
+}
+
+// ═══ 03 ENCODING ═══
+let curEnc = 'base64';
+const encInfos = {
+  base64: '<strong>Base64</strong> encodes binary data as ASCII. Used in JWT tokens, email attachments, HTML image embeds, and HTTP Basic Authentication.',
+  hex:    '<strong>Hexadecimal</strong> represents each byte as two hex digits (0–F). Used in hashing output, network protocols, memory addresses, and color codes.',
+  binary: '<strong>Binary</strong> represents each character as 8 bits (0s and 1s). Foundation of all digital computing — how computers store everything.',
+  url:    '<strong>URL Encoding</strong> converts special characters to %XX format for safe transmission in URLs. Required for query strings and form data.',
+};
+function setEncMethod(m, el) {
+  curEnc = m;
+  document.querySelectorAll('.enc-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('encInfo').innerHTML = encInfos[m] || '';
+}
+
+async function doEncode(action) {
+  const text = document.getElementById('encInput').value;
+  if (!text.trim()) { setOutError('encOut', 'Enter text first'); return; }
+  const data = await api('/api/encode', { text, method: curEnc, action });
+  if (data.error) { setOutError('encOut', data.error); return; }
+  setOut('encOut', data.result);
+  document.getElementById('encOut').style.color = action === 'encode' ? 'var(--neon)' : 'var(--neon2)';
+}
+
+// ═══ 04 CIPHER ═══
+let curCipher = 'caesar';
+const cipherInfos = {
+  caesar: '<strong>Caesar Cipher</strong> shifts each letter N positions in the alphabet. Julius Caesar used shift 3 for military communications. Simple but historically significant.',
+  vigenere: '<strong>Vigenère Cipher</strong> uses a keyword to apply different shifts to each letter. Called "le chiffre indéchiffrable" (unbreakable cipher) for 300 years.',
+  atbash: '<strong>Atbash Cipher</strong> reverses the alphabet — A↔Z, B↔Y. Ancient Hebrew cipher used in the Old Testament. Symmetric: encoding and decoding are identical.',
+  rot13: '<strong>ROT-13</strong> is Caesar shift 13 — encoding and decoding are the same operation (13+13=26). Used on internet forums to hide spoilers.',
+  morse: '<strong>Morse Code</strong> represents letters as dots (·) and dashes (−). Developed 1836 by Samuel Morse for telegraph communication. Still used in aviation.',
+  caesar_brute: '<strong>Brute Force Attack</strong> tries all 25 possible Caesar shifts. Demonstrates why simple substitution ciphers are weak — only 25 possible keys.',
+};
+
+function setCipher(c, el) {
+  curCipher = c;
+  document.querySelectorAll('.cipher-tile').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('cipherInfo').innerHTML = cipherInfos[c] || '';
+  document.getElementById('caesarOpts').style.display = c === 'caesar' ? 'block' : 'none';
+  document.getElementById('vigenereOpts').style.display = c === 'vigenere' ? 'block' : 'none';
+  document.getElementById('bruteWrap').style.display = 'none';
+  document.getElementById('morseWrap').style.display = 'none';
+
+  const btns = document.getElementById('cipherBtns');
+  if (c === 'caesar_brute') {
+    btns.innerHTML = `<button class="btn btn-primary" onclick="doCipher('decode')">💥 Brute Force All 25 Shifts</button>
+      <button class="btn btn-ghost" onclick="clearCipher()">Clear</button>`;
+  } else if (c === 'atbash' || c === 'rot13') {
+    btns.innerHTML = `<button class="btn btn-primary" onclick="doCipher('encode')">🔒 Apply Cipher</button>
+      <button class="btn btn-ghost" onclick="clearCipher()">Clear</button>`;
+  } else {
+    btns.innerHTML = `<button class="btn btn-primary" onclick="doCipher('encode')">🔒 Encode / Encrypt</button>
+      <button class="btn btn-secondary" onclick="doCipher('decode')">🔓 Decode / Decrypt</button>
+      <button class="btn btn-ghost" onclick="clearCipher()">Clear</button>`;
+  }
+}
+
+async function doCipher(action) {
+  const text = document.getElementById('cipherInput').value;
+  if (!text.trim()) { setOutError('cipherOut', 'Enter text first'); return; }
+
+  const body = { text, cipher: curCipher, action };
+  if (curCipher === 'caesar' || curCipher === 'caesar_brute') {
+    body.shift = +document.getElementById('shiftRange').value;
+  }
+  if (curCipher === 'vigenere') {
+    body.key = document.getElementById('vigKey').value;
+    if (!body.key) { setOutError('cipherOut', 'Enter a Vigenere key'); return; }
+  }
+
+  const data = await api('/api/cipher', body);
+  if (data.error) { setOutError('cipherOut', data.error); return; }
+
+  if (curCipher === 'caesar_brute') {
+    document.getElementById('bruteWrap').style.display = 'block';
+    document.getElementById('morseWrap').style.display = 'none';
+    const tbody = document.getElementById('bruteTbody');
+    tbody.innerHTML = data.results.map(r =>
+      `<div class="brute-row" onclick="navigator.clipboard.writeText('${esc(r.text)}');this.style.background='rgba(0,255,170,0.05)'">
+        <div class="brute-num">Shift ${r.shift}</div>
+        <div class="brute-text">${esc(r.text)}</div>
+      </div>`
+    ).join('');
+    setOut('cipherOut', `${data.results.length} decryptions — click any row to copy`);
+  } else if (curCipher === 'morse' && action === 'encode') {
+    setOut('cipherOut', data.result);
+    document.getElementById('cipherOut').style.color = 'var(--warn)';
+    document.getElementById('morseDisp').textContent = data.result;
+    document.getElementById('morseWrap').style.display = 'block';
+  } else {
+    setOut('cipherOut', data.result);
+    document.getElementById('cipherOut').style.color = action === 'encode' ? 'var(--neon)' : 'var(--neon2)';
+    document.getElementById('bruteWrap').style.display = 'none';
+    document.getElementById('morseWrap').style.display = 'none';
+  }
+}
+
+function clearCipher() {
+  document.getElementById('cipherInput').value = '';
+  setOutPlaceholder('cipherOut', '— result will appear here —');
+  document.getElementById('bruteWrap').style.display = 'none';
+  document.getElementById('morseWrap').style.display = 'none';
+}
+
+// ═══ 05 CONVERT ═══
+async function doConvert() {
+  const val = document.getElementById('convertInput').value.trim();
+  if (!val) { hideEl('convertResults'); return; }
+  const from = +document.getElementById('fromBase').value;
+  const to   = +document.getElementById('toBase').value;
+  const data = await api('/api/convert', { value: val, from_base: from, to_base: to });
+  if (data.error) {
+    document.getElementById('convertResults').style.display = 'none';
+    return;
+  }
+  document.getElementById('convertResults').style.display = 'block';
+  document.getElementById('resBin').textContent = data.binary || '—';
+  document.getElementById('resOct').textContent = data.octal  || '—';
+  document.getElementById('resDec').textContent = data.decimal != null ? data.decimal : '—';
+  document.getElementById('resHex').textContent = data.hex   || '—';
+  setOut('convertOut', data.result || String(data.decimal));
+  document.getElementById('convertOut').style.color = 'var(--neon)';
+}
+
+// ═══ 06 BREACH ═══
+async function doBreach() {
+  const pw = document.getElementById('breachInput').value;
+  if (!pw) return;
+  const result = document.getElementById('breachResult');
+  result.innerHTML = `<div style="padding:20px 0;font-family:var(--code);font-size:0.8rem;color:var(--text3)">
+    <span class="spinner"></span>Scanning 800M+ breach records…</div>`;
+
+  const data = await api('/api/breach', { password: pw });
+
+  if (data.error) {
+    result.innerHTML = `<div style="font-family:var(--code);font-size:0.8rem;color:var(--warn);padding:14px 0">⚠ ${esc(data.error)}</div>`;
+    return;
+  }
+
+  if (data.pwned) {
+    const pct = Math.min(98, Math.log10(data.count + 1) / 8 * 100);
+    const sevColor = data.severity === 'critical' ? 'var(--danger)' : data.severity === 'high' ? '#ff7a6a' : 'var(--warn)';
+    const sevLabel = data.severity?.toUpperCase() || 'HIGH';
+    result.innerHTML = `
+      <div class="breach-card breach-pwned">
+        <div class="breach-emoji">🚨</div>
+        <div style="flex:1">
+          <div class="breach-title" style="color:var(--danger)">Password Compromised</div>
+          <div class="breach-detail">
+            Found in <strong style="color:var(--danger)">${data.count_formatted}</strong> known data breaches<br>
+            Severity: <span style="color:${sevColor}">${sevLabel}</span>
+            &nbsp;·&nbsp; Hash prefix verified: <span style="color:var(--text3)">${data.hash_prefix}…</span><br>
+            <span style="color:var(--danger);margin-top:4px;display:block">Change this password immediately on every account using it.</span>
+          </div>
+          <div class="breach-meter">
+            <div class="breach-fill" style="width:0%" id="bFill"></div>
+          </div>
+          <div style="font-family:var(--code);font-size:0.6rem;color:var(--text3);margin-top:4px">Exposure: ${pct.toFixed(0)}%</div>
+        </div>
+      </div>`;
+    setTimeout(() => {
+      const fill = document.getElementById('bFill');
+      if (fill) fill.style.width = pct + '%';
+    }, 100);
+  } else {
+    result.innerHTML = `
+      <div class="breach-card breach-safe">
+        <div class="breach-emoji">✅</div>
+        <div>
+          <div class="breach-title" style="color:var(--neon)">Not Found in Any Breach</div>
+          <div class="breach-detail">
+            Not found in 800M+ known breached passwords.<br>
+            Hash prefix checked: <span style="color:var(--text3)">${data.hash_prefix}…</span><br>
+            Still practice good security — enable 2FA on all accounts.
+          </div>
+        </div>
+      </div>`;
+  }
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INIT ──
+setCipher('caesar', document.getElementById('ct-caesar'));
+</script>
+</body>
+</html>
