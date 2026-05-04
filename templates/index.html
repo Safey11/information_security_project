@@ -905,19 +905,261 @@ footer {
   color: var(--neon); gap: 10px;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .sidebar { display: none; }
-  .main-content { padding: 24px 20px; }
-  footer { padding: 16px 20px; }
+/* ══════════════════════════════════════════════════════════
+   COMPREHENSIVE RESPONSIVE SYSTEM
+   Breakpoints: 1280 · 1024 · 900 · 768 · 600 · 480 · 380
+══════════════════════════════════════════════════════════ */
+
+/* ── TABLET LANDSCAPE (≤1280px) ── */
+@media (max-width: 1280px) {
+  .main-content { max-width: 100%; }
 }
-@media (max-width: 600px) {
-  header { padding: 0 16px; }
-  .main-content { padding: 20px 14px; }
-  .col-2, .col-3, .stat-row, .crit-grid, .base-grid { grid-template-columns: 1fr; }
-  .cipher-selector { grid-template-columns: 1fr 1fr; }
-  .convert-layout { grid-template-columns: 1fr; }
+
+/* ── TABLET (≤1024px) ── */
+@media (max-width: 1024px) {
+  .sidebar { width: 180px; }
+  .nav-item { padding: 8px 8px; font-size: 0.82rem; }
+  .main-content { padding: 28px 24px; }
+  .page-title { font-size: 1.7rem; }
+}
+
+/* ── TABLET PORTRAIT (≤900px) — hide sidebar, add mobile nav ── */
+@media (max-width: 900px) {
+  /* Hide desktop sidebar */
+  .sidebar { display: none; }
+
+  /* Full width content */
+  .layout { display: block; }
+  .main-content { padding: 20px 20px 80px; }
+
+  /* Mobile bottom nav */
+  .mobile-nav {
+    display: flex !important;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(7,12,20,0.97);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--rim2);
+    padding: 6px 4px env(safe-area-inset-bottom, 6px);
+  }
+
+  footer { padding: 16px 20px; display: none; }
+  header { padding: 0 20px; }
+
+  .page-title { font-size: 1.6rem; }
+  .page-desc { font-size: 0.72rem; }
+
+  .hash-row-item { grid-template-columns: 70px 44px 1fr 50px; gap: 8px; }
+}
+
+/* ── MOBILE (≤768px) ── */
+@media (max-width: 768px) {
+  header { height: 56px; }
+  .logo-text { font-size: 1.25rem; }
+  .logo-version { display: none; }
+  .header-divider { display: none; }
+  .header-clock { font-size: 0.65rem; }
+
+  .main-content { padding: 16px 16px 88px; }
+  .page-head { margin-bottom: 20px; padding-bottom: 16px; }
+  .page-title { font-size: 1.5rem; letter-spacing: -0.3px; }
+
+  /* Cards */
+  .card { padding: 18px 16px; }
+  .card-title-text { font-size: 0.95rem; }
+
+  /* Stat row — 3 col on tablet, stacks on small */
+  .stat-row { grid-template-columns: repeat(3,1fr); gap: 8px; }
+  .stat-num { font-size: 1.2rem; }
+
+  /* Criteria — 2 col */
+  .crit-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+
+  /* Hash table */
+  .hash-row-item {
+    grid-template-columns: 60px 1fr 44px;
+    gap: 8px;
+  }
+  .hr-strength { display: none; } /* hide on small screens */
+
+  /* Cipher selector */
+  .cipher-selector { grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .cipher-tile { padding: 10px 6px; }
+  .ct-icon { font-size: 1.2rem; }
+  .ct-name { font-size: 0.75rem; }
+  .ct-desc { display: none; }
+
+  /* Shift display */
+  .shift-big { font-size: 2.8rem; }
+
+  /* Base grid */
+  .base-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Algo pills — wrappable */
+  .algo-pills { gap: 4px; }
+  .algo-pill { font-size: 0.65rem; padding: 4px 9px; }
+
+  /* Button groups — wrap */
+  .btn-group { gap: 6px; }
+  .btn { padding: 9px 14px; font-size: 0.82rem; }
+
+  /* Encoding bar */
+  .enc-bar { flex-wrap: wrap; }
+  .enc-tab { flex: 1 1 50%; min-width: 0; font-size: 0.68rem; }
+
+  /* Convert */
+  .convert-layout { grid-template-columns: 1fr; gap: 10px; }
   .convert-arrow-icon { display: none; }
+}
+
+/* ── SMALL MOBILE (≤600px) ── */
+@media (max-width: 600px) {
+  header { padding: 0 14px; height: 52px; }
+  .logo-mark { width: 32px; height: 32px; font-size: 14px; }
+  .logo-text { font-size: 1.15rem; }
+  .header-status { display: none; }
+
+  .main-content { padding: 14px 12px 90px; }
+
+  .page-title { font-size: 1.35rem; }
+  .page-eyebrow { font-size: 0.58rem; }
+  .page-desc { font-size: 0.7rem; }
+
+  /* All 2-col grids → 1 col */
+  .col-2, .col-3 { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .crit-grid { grid-template-columns: 1fr 1fr; }
+  .base-grid { grid-template-columns: 1fr; }
+
+  .stat-num { font-size: 1.1rem; }
+  .stat-lbl { font-size: 0.55rem; }
+
+  /* Cards */
+  .card { padding: 14px 12px; border-radius: 12px; }
+
+  /* Buttons */
+  .btn { padding: 8px 12px; font-size: 0.78rem; }
+  .btn-group { flex-direction: column; }
+  .btn-group .btn { width: 100%; justify-content: center; }
+
+  /* Hash table compact */
+  .hash-row-item {
+    grid-template-columns: 55px 1fr 40px;
+    padding: 8px 10px; gap: 6px;
+  }
+  .hr-algo { font-size: 0.65rem; }
+  .hr-val { font-size: 0.7rem; }
+  .hr-copy { font-size: 0.55rem; padding: 2px 6px; }
+
+  /* Cipher */
+  .cipher-selector { grid-template-columns: repeat(2,1fr); gap: 6px; }
+  .ct-icon { font-size: 1.1rem; margin-bottom: 3px; }
+  .ct-name { font-size: 0.72rem; }
+  .shift-big { font-size: 2.4rem; }
+
+  /* Privacy strip */
+  .privacy-row { flex-direction: column; gap: 2px; }
+  .priv-v { text-align: left; }
+
+  /* Output */
+  .output-content { font-size: 0.76rem; padding: 10px 40px 10px 12px; }
+
+  /* Encoding bar */
+  .enc-tab { font-size: 0.65rem; padding: 8px 6px; }
+
+  /* Slider */
+  .slider-wrap { gap: 10px; }
+  .slider-val { font-size: 0.9rem; min-width: 26px; }
+
+  /* Check pills */
+  .check-pill { font-size: 0.68rem; padding: 5px 10px; }
+
+  /* Field label */
+  .field-label { font-size: 0.58rem; }
+
+  /* Inputs */
+  input[type=text], input[type=password], textarea, select {
+    font-size: 0.82rem; padding: 9px 12px;
+  }
+  textarea { min-height: 80px; }
+
+  /* Brute force */
+  .brute-row { grid-template-columns: 48px 1fr; gap: 8px; padding: 7px 10px; }
+  .brute-num { font-size: 0.65rem; }
+  .brute-text { font-size: 0.75rem; }
+
+  /* Base boxes */
+  .base-box { padding: 10px 12px; }
+  .base-box-val { font-size: 0.78rem; }
+}
+
+/* ── VERY SMALL MOBILE (≤480px) ── */
+@media (max-width: 480px) {
+  .main-content { padding: 12px 10px 88px; }
+  .page-title { font-size: 1.2rem; }
+
+  .stat-row { grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+  .stat-card { padding: 10px 6px; }
+  .stat-num { font-size: 1rem; }
+
+  .cipher-selector { grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .ct-icon { font-size: 1rem; }
+  .ct-name { font-size: 0.62rem; }
+
+  .algo-pill { font-size: 0.6rem; padding: 3px 7px; }
+
+  /* HMAC layout */
+  .field-row.col-2 { grid-template-columns: 1fr; }
+
+  .morse-display { font-size: 0.78rem; letter-spacing: 1px; }
+}
+
+/* ── EXTRA SMALL (≤380px — iPhone SE) ── */
+@media (max-width: 380px) {
+  header { padding: 0 10px; }
+  .logo-text { font-size: 1rem; }
+  .main-content { padding: 10px 8px 88px; }
+
+  .card { padding: 12px 10px; }
+  .page-title { font-size: 1.1rem; }
+
+  .stat-row { grid-template-columns: 1fr 1fr; gap: 5px; }
+  .crit-grid { grid-template-columns: 1fr; }
+
+  .cipher-selector { grid-template-columns: 1fr 1fr; gap: 5px; }
+
+  .check-pill { font-size: 0.62rem; padding: 4px 8px; }
+  .btn { font-size: 0.75rem; padding: 8px 10px; }
+
+  .hash-row-item { grid-template-columns: 48px 1fr 36px; gap: 5px; padding: 7px 8px; }
+}
+
+/* ── MOBILE NAV (hidden on desktop) ── */
+.mobile-nav { display: none; }
+
+/* ── LANDSCAPE PHONE ── */
+@media (max-width: 900px) and (orientation: landscape) {
+  .main-content { padding: 12px 20px 70px; }
+  .page-head { margin-bottom: 14px; padding-bottom: 10px; }
+  .page-title { font-size: 1.3rem; }
+  .card { padding: 14px 16px; margin-bottom: 12px; }
+  .mobile-nav { padding: 4px 4px; }
+}
+
+/* ── TOUCH DEVICE IMPROVEMENTS ── */
+@media (hover: none) and (pointer: coarse) {
+  .nav-item, .cipher-tile, .algo-pill, .enc-tab,
+  .hash-tab, .btn, .check-pill, .base-box {
+    min-height: 44px; /* Apple HIG touch target */
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-item, .algo-pill, .enc-tab, .hash-tab { min-height: unset; }
+  input, textarea, select { font-size: 16px !important; } /* Prevent iOS zoom */
+  .copy-btn { min-width: 44px; min-height: 30px; }
+}
+
+/* ── HIGH DPI / RETINA ── */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .bg-grid { background-size: 44px 44px; }
 }
 
 /* ── VIGENERE / SPECIAL ── */
@@ -931,6 +1173,30 @@ footer {
   color: var(--text3); line-height: 1.7; margin-bottom: 14px;
 }
 .info-callout strong { color: var(--neon2); }
+
+/* ── MOBILE NAV STYLES ── */
+.mobile-nav {
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+}
+.mob-nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 3px; padding: 6px 10px; border-radius: 8px;
+  cursor: pointer; transition: all 0.18s;
+  flex: 1; user-select: none; min-width: 0;
+}
+.mob-nav-item:hover { background: rgba(0,255,170,0.05); }
+.mob-nav-item.active { background: rgba(0,255,170,0.08); }
+.mob-nav-icon { font-size: 1.15rem; line-height: 1; }
+.mob-nav-label {
+  font-family: var(--code); font-size: 0.55rem;
+  color: var(--text3); text-transform: uppercase;
+  letter-spacing: 0.5px; line-height: 1;
+  white-space: nowrap;
+}
+.mob-nav-item.active .mob-nav-label { color: var(--neon); }
+.mob-nav-item.active .mob-nav-icon { filter: drop-shadow(0 0 4px rgba(0,255,170,0.6)); }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
@@ -969,6 +1235,34 @@ footer {
     <div class="header-clock" id="clock">—</div>
   </div>
 </header>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav" id="mobileNav">
+  <div class="mob-nav-item active" onclick="setPanel('password',document.getElementById('nav-password'));setMobNav(this)">
+    <span class="mob-nav-icon">🔑</span>
+    <span class="mob-nav-label">Password</span>
+  </div>
+  <div class="mob-nav-item" onclick="setPanel('hash',document.getElementById('nav-hash'));setMobNav(this)">
+    <span class="mob-nav-icon">⚙️</span>
+    <span class="mob-nav-label">Hash</span>
+  </div>
+  <div class="mob-nav-item" onclick="setPanel('encoding',document.getElementById('nav-encoding'));setMobNav(this)">
+    <span class="mob-nav-icon">🔄</span>
+    <span class="mob-nav-label">Encode</span>
+  </div>
+  <div class="mob-nav-item" onclick="setPanel('cipher',document.getElementById('nav-cipher'));setMobNav(this)">
+    <span class="mob-nav-icon">🔤</span>
+    <span class="mob-nav-label">Cipher</span>
+  </div>
+  <div class="mob-nav-item" onclick="setPanel('convert',document.getElementById('nav-convert'));setMobNav(this)">
+    <span class="mob-nav-icon">🔢</span>
+    <span class="mob-nav-label">Base</span>
+  </div>
+  <div class="mob-nav-item" onclick="setPanel('breach',document.getElementById('nav-breach'));setMobNav(this)">
+    <span class="mob-nav-icon">🛡️</span>
+    <span class="mob-nav-label">Breach</span>
+  </div>
+</nav>
 
 <!-- LAYOUT -->
 <div class="layout">
@@ -1505,6 +1799,12 @@ function updateClock() {
   clockEl.textContent = `${pad(n.getUTCHours())}:${pad(n.getUTCMinutes())}:${pad(n.getUTCSeconds())} UTC`;
 }
 updateClock(); setInterval(updateClock, 1000);
+
+// ── MOBILE NAV ──
+function setMobNav(el) {
+  document.querySelectorAll('.mob-nav-item').forEach(m => m.classList.remove('active'));
+  el.classList.add('active');
+}
 
 // ── PANEL NAV ──
 function setPanel(name, el) {
