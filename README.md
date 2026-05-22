@@ -22,14 +22,23 @@ SafeyKit is a comprehensive, open-source security toolkit built with Flask. It p
   - Crack time estimation
   - Detailed criteria breakdown
   - Color-coded strength indicators
+ 
+  <img width="1915" height="904" alt="image" src="https://github.com/user-attachments/assets/9f3c50be-213e-496f-b8dd-f02536ce6549" />
+
 
 ### 🛡️ Security Features
 - **Breach Checker**: Verify if passwords have been compromised using the Have I Been Pwned API (privacy-safe implementation)
+  
+- <img width="1917" height="901" alt="image" src="https://github.com/user-attachments/assets/8751c569-ea96-4585-9e4a-ea785a8c90db" />
+
 - **Hash Generation**: Support for 9+ hashing algorithms:
   - MD5, SHA-1, SHA-256, SHA-384, SHA-512
   - SHA3-256, SHA3-512
   - BLAKE2b, BLAKE2s
 - **HMAC Generator**: Create HMAC signatures with multiple algorithms
+
+  <img width="1195" height="884" alt="image" src="https://github.com/user-attachments/assets/0a9c198b-98ce-4efb-a6a4-0f1bec4ca0d9" />
+
 
 ### 🔐 Cipher Suite
 - **Caesar Cipher**: Classic shift cipher with brute-force cracking
@@ -38,15 +47,28 @@ SafeyKit is a comprehensive, open-source security toolkit built with Flask. It p
 - **ROT13**: Variant of Caesar cipher with fixed shift
 - **Morse Code**: Encode/decode messages to Morse code
 
+  <img width="958" height="889" alt="image" src="https://github.com/user-attachments/assets/45cb12a0-5b11-451b-b6d9-95d15d79900d" />
+
+
+  
+
 ### 🔄 Encoding & Decoding
 - **Base64**: Standard base64 encoding/decoding
 - **Hex**: Hexadecimal encoding/decoding
 - **Binary**: Convert text to/from binary representation
 - **URL Encoding**: URL-safe character encoding
 
+<img width="1919" height="897" alt="image" src="https://github.com/user-attachments/assets/b389fd95-1582-4afe-97b9-37179d566d5d" />
+
+  
+
+
 ### 📊 Conversion Tools
 - **Number Base Converter**: Convert between binary, octal, decimal, hexadecimal, and up to base-36
 - **Multi-format Display**: View results in multiple base formats simultaneously
+
+  <img width="1918" height="902" alt="image" src="https://github.com/user-attachments/assets/17cc9273-4570-4fb0-96e0-3307535774b6" />
+
 
 ---
 
