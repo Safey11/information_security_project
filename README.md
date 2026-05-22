@@ -10,6 +10,8 @@ SafeyKit is a comprehensive, open-source security toolkit built with Flask. It p
 
 ---
 
+**live Project:** https://infosecpj.vercel.app/
+
 ## 🚀 Features
 
 ### 🔑 Password Tools
